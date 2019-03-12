@@ -9,3 +9,4 @@ fs.appendFile('./files/append.txt', content, function(err){
         console.log("content was appended");
     }
 });
+//making comment to practice pushing to github
