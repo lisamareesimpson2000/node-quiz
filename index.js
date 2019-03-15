@@ -14,22 +14,23 @@
 }); */
 //console.log (__dirname); //to display the folder /directory name
 //console.log(__filename); //to display the file name
+const fs = require('fs');
 
 var request = [
     'Enter your name:',
     'Enter your favourite place:',
     'Enter your birthday month:'
-];
-var response = [];
+]; //This is the array of questions I want to ask
+var response = [];//I am going to collect the user response here
 
 function myRequest(i){
-    process.stdout.write(`\n\n  ${request[i]} \n\n`)
+    process.stdout.write(`\n\n  ${request[i]} \n\n`) //this is a function to write the question I want to ask
     //process.exit();
 }
 
 //read input
 process.stdin.on('data', function(data){
-    response.push(data.toString().trim());
+    response.push(data.toString().trim()); //making the response from the user into a string and trim the space off it
     if (response.length < request.length){
     myRequest(response.length);
     } else {
@@ -37,7 +38,20 @@ process.stdin.on('data', function(data){
     }
     }); 
 
+
+
+
 process.on('exit', function(){
-    process.stdout.write(`\n\n Hi ${response[0]}, Plan to visit ${response[1]}, in the month of ${response[2]}  \n\n `)
+    var sentence = (`\n\n Hi ${response[0]}, Plan to visit ${response[1]}, in the month of ${response[2]}  \n\n `); //backtick, template string
+    process.stdout.write(sentence);
+    
+//by putting this at the top const fs = require('fs'); it will display the sentence from request and response in the message.txt file.
+//if not it will throw error
+    fs.appendFileSync('./files/message.txt', sentence, (err) => { 
+        if (err) throw err;
+            console.log('The file has been created!');
+      });
+
+    // process.stdout.write(`\n\n Hi ${response[0]}, Plan to visit ${response[1]}, in the month of ${response[2]}  \n\n `)
 });
 myRequest(0);
